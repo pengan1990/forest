@@ -146,8 +146,7 @@ func (manager *JobManager) handleJobDeleteEvent(key string) {
 	id := key[pos+1:]
 
 	jobConf := &JobConf{
-		Id:      id,
-		Version: -1,
+		Id: id,
 	}
 
 	manager.node.scheduler.pushJobChangeEvent(&JobChangeEvent{
@@ -218,6 +217,8 @@ func (manager *JobManager) editJob(jobConf *JobConf) (err error) {
 		return
 	}
 
+
+
 	if value, err = manager.node.etcd.Get(JobConfPath + jobConf.Id); err != nil {
 		return
 	}
@@ -231,7 +232,7 @@ func (manager *JobManager) editJob(jobConf *JobConf) (err error) {
 		return
 	}
 
-	jobConf.Version = oldConf.Version + 1
+	jobConf.Version =oldConf.Version+1
 	if v, err = ParkJobConf(jobConf); err != nil {
 		return
 	}
